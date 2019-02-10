@@ -56,32 +56,8 @@ class Boid {
     if (this.pos.distance(other.pos) < distanceRequirement) {
       return true;
     }
-    if (this.pos.plus(new Vec2(width,height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(width,0)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(width,-1*height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(0,height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(0,-1*height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(-1*width,height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(-1 * width,0)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
-    if (this.pos.plus(new Vec2(-1*width,-1*height)).distance(other.pos) < distanceRequirement) {
-      return true;
-    }
     
-    return true;
+    return false;
   }
   
   Boid() {
@@ -142,6 +118,7 @@ class Boid {
     this.acc = this.acc.plus(alignment).plus(cohesion).plus(separation);
     
     this.acc.normalize();
+    this.acc.scale(ACCELERATION_WEIGHT);
     
     this.vel = this.vel.plus(this.acc).normalized().scale(boidSpeed);
     this.pos = this.pos.plus(this.vel);
@@ -167,13 +144,14 @@ class Boid {
 }
 
 int num = 50;
-int distanceRequirement = 100;
+int distanceRequirement = 50;
 Boid[] boids = new Boid[num];
 float boidSpeed = 3;
 
 float ALIGNMENT_WEIGHT = 0.2;
 float COHESION_WEIGHT = 0.4;
 float SEPARATION_WEIGHT = 0.4;
+float ACCELERATION_WEIGHT = 0.5;
 
 void setup() {
   size(1024, 1024);
